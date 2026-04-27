@@ -4,10 +4,7 @@ from pydantic import BaseModel
 
 class ProductQuery(BaseModel):
     brand: str
-    model: str
-
-    class Config:
-        arbitrary_types_allowed = True
+    modele: str
 
 
 class CollectRequest(BaseModel):
@@ -28,6 +25,7 @@ class DocumentRecord(BaseModel):
     id: Optional[str] = None
     created_at: Optional[str] = None
     brand: Optional[str] = None
+    modele: Optional[str] = None
     title: Optional[str] = None
     doc_type: Optional[str] = None
     source_url: Optional[str] = None
