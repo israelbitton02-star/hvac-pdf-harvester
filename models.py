@@ -1,12 +1,13 @@
-from datetime import datetime
 from typing import Optional, List
-from uuid import UUID
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class ProductQuery(BaseModel):
     brand: str
-    model: str
+    model_name: str
+
+    class Config:
+        fields = {'model_name': 'model'}
 
 
 class CollectRequest(BaseModel):
@@ -24,18 +25,18 @@ class CollectResponse(BaseModel):
 
 
 class DocumentRecord(BaseModel):
-    id: Optional[str]
-    created_at: Optional[str]
-    brand: Optional[str]
-    model: Optional[str]
-    title: Optional[str]
-    doc_type: Optional[str]
-    source_url: Optional[str]
-    storage_path: Optional[str]
-    storage_url: Optional[str]
-    source: Optional[str]
-    sha256: Optional[str]
-    file_size: Optional[int]
+    id: Optional[str] = None
+    created_at: Optional[str] = None
+    brand: Optional[str] = None
+    model: Optional[str] = None
+    title: Optional[str] = None
+    doc_type: Optional[str] = None
+    source_url: Optional[str] = None
+    storage_path: Optional[str] = None
+    storage_url: Optional[str] = None
+    source: Optional[str] = None
+    sha256: Optional[str] = None
+    file_size: Optional[int] = None
 
     class Config:
         orm_mode = True
