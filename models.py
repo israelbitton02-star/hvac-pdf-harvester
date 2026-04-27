@@ -4,10 +4,10 @@ from pydantic import BaseModel
 
 class ProductQuery(BaseModel):
     brand: str
-    model_name: str
+    model: str
 
     class Config:
-        fields = {'model_name': 'model'}
+        fields = {'model': 'model'}
 
 
 class CollectRequest(BaseModel):
@@ -28,7 +28,7 @@ class DocumentRecord(BaseModel):
     id: Optional[str] = None
     created_at: Optional[str] = None
     brand: Optional[str] = None
-    model: Optional[str] = None
+    doc_model: Optional[str] = None
     title: Optional[str] = None
     doc_type: Optional[str] = None
     source_url: Optional[str] = None
@@ -40,3 +40,4 @@ class DocumentRecord(BaseModel):
 
     class Config:
         orm_mode = True
+        fields = {'doc_model': 'model'}
