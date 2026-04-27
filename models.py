@@ -7,7 +7,7 @@ class ProductQuery(BaseModel):
     model: str
 
     class Config:
-        fields = {'model': 'model'}
+        arbitrary_types_allowed = True
 
 
 class CollectRequest(BaseModel):
@@ -28,7 +28,6 @@ class DocumentRecord(BaseModel):
     id: Optional[str] = None
     created_at: Optional[str] = None
     brand: Optional[str] = None
-    doc_model: Optional[str] = None
     title: Optional[str] = None
     doc_type: Optional[str] = None
     source_url: Optional[str] = None
@@ -37,7 +36,3 @@ class DocumentRecord(BaseModel):
     source: Optional[str] = None
     sha256: Optional[str] = None
     file_size: Optional[int] = None
-
-    class Config:
-        orm_mode = True
-        fields = {'doc_model': 'model'}
