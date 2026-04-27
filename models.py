@@ -1,18 +1,17 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID
-
 from pydantic import BaseModel, Field
 
 
 class ProductQuery(BaseModel):
-    brand: str = Field(..., example="Atlantic")
-    model: str = Field(..., example="Calypso")
+    brand: str
+    model: str
 
 
 class CollectRequest(BaseModel):
-    products: list[ProductQuery] = Field(..., min_length=1)
-    max_results_per_query: int = Field(default=5, ge=1, le=20)
+    products: List[ProductQuery]
+    max_results_per_query: int = 5
 
 
 class CollectResponse(BaseModel):
@@ -21,22 +20,22 @@ class CollectResponse(BaseModel):
     pdfs_found: int
     pdfs_uploaded: int
     duplicates: int
-    errors: list[str]
+    errors: List[str]
 
 
 class DocumentRecord(BaseModel):
-    id: Optional[UUID] = None
-    created_at: Optional[datetime] = None
-    brand: Optional[str] = None
-    model: Optional[str] = None
-    title: Optional[str] = None
-    doc_type: Optional[str] = None
-    source_url: Optional[str] = None
-    storage_path: Optional[str] = None
-    storage_url: Optional[str] = None
-    source: Optional[str] = None
-    sha256: Optional[str] = None
-    file_size: Optional[int] = None
+    id: Optional[str]
+    created_at: Optional[str]
+    brand: Optional[str]
+    model: Optional[str]
+    title: Optional[str]
+    doc_type: Optional[str]
+    source_url: Optional[str]
+    storage_path: Optional[str]
+    storage_url: Optional[str]
+    source: Optional[str]
+    sha256: Optional[str]
+    file_size: Optional[int]
 
     class Config:
-        from_attributes = True
+        orm_mode = True
