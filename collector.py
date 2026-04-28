@@ -201,7 +201,7 @@ async def collect_pdfs(request: CollectRequest) -> CollectResponse:
 
     for product in request.products:
         brand = product.brand.strip()
-        model = product.modele.strip()
+        model = product.model.strip()
         logger.info("🏭 Processing product: %s %s", brand, model)
 
         # Collecter toutes les URLs candidates pour ce produit
