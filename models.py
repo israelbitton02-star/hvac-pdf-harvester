@@ -1,16 +1,13 @@
 from typing import Optional, List
 from pydantic import BaseModel
 
-
 class ProductQuery(BaseModel):
     brand: str
     modele: str
 
-
 class CollectRequest(BaseModel):
     products: List[ProductQuery]
     max_results_per_query: int = 5
-
 
 class CollectResponse(BaseModel):
     status: str
@@ -20,17 +17,9 @@ class CollectResponse(BaseModel):
     duplicates: int
     errors: List[str]
 
-
 class DocumentRecord(BaseModel):
-    id: Optional[str] = None
-    created_at: Optional[str] = None
-    brand: Optional[str] = None
-    modele: Optional[str] = None
-    title: Optional[str] = None
-    doc_type: Optional[str] = None
-    source_url: Optional[str] = None
-    storage_path: Optional[str] = None
-    storage_url: Optional[str] = None
-    source: Optional[str] = None
-    sha256: Optional[str] = None
-    file_size: Optional[int] = None
+    id: Optional[str]
+    brand: Optional[str]
+    modele: Optional[str]
+    title: Optional[str]
+    sha256: Optional[str]
