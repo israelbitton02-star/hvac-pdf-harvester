@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class ProductQuery(BaseModel):
     brand: str
-    modele: str
+    model: str
 
 class CollectRequest(BaseModel):
     products: List[ProductQuery]
