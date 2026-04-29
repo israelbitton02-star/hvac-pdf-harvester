@@ -1,25 +1,16 @@
 import logging
 import os
-from contextlib import asynccontextmanager
-from typing import List
-
+import asyncio
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
 from collector import collect_pdfs
-from models import CollectRequest, CollectResponse, DocumentRecord
+from models import CollectRequest, DocumentRecord
 from supabase_client import get_documents
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("main")
 
-app = FastAPI(
-    title="HVAC/PV PDF Harvester",
-    version="1.0.0",
-)
+app = FastAPI(title="HVAC/PV PDF Harvester", version="1.0.0")
 
 allowed_origins_raw = os.getenv("ALLOWED_ORIGINS", "*")
 allowed_origins = ["*"] if allowed_origins_raw.strip() == "*" else [o.strip() for o in allowed_origins_raw.split(",")]
@@ -38,11 +29,16 @@ def health_check():
 
 @app.post("/collect")
 async def collect(request: CollectRequest):
-    try:
-        result = await collect_pdfs(request)
-        return result
-    except Exception as exc:
-        raise HTTPException(status_code=500, detail=str(exc))
+    asyncio.create_task(collect_pdfs(request))
+    return {
+        "status": "ok",
+        "message": "Collecte lancée en arrière-plan",
+        "products_processed": len(request.products),
+        "pdfs_found": 0,
+        "pdfs_uploaded": 0,
+        "duplicates": 0,
+        "errors": []
+    }
 
 @app.get("/documents")
 async def list_documents():
