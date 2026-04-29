@@ -72,9 +72,9 @@ async def _search_pdf_urls(brand: str, model: str, template: str, max_results: i
 
         urls = []
         for result in data.get("organic_results", []):
-            link = result.get("link", "")
-            if link.lower().endswith(".pdf") or "pdf" in link.lower():
-                urls.append(link)
+    link = result.get("link", "")
+    if link:
+        urls.append(link)
 
         logger.info("Found %d PDF URLs for '%s'", len(urls), query)
         return [(url, doc_type) for url in urls]
