@@ -65,15 +65,15 @@ async def _search_pdf_urls(brand: str, model: str, template: str, max_results: i
     }
 
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=15.0) as client:
             resp = await client.get("https://serpapi.com/search", params=params)
             resp.raise_for_status()
             data = resp.json()
 
         urls = []
-        for result in data.get("organic_results", []):
+       for result in data.get("organic_results", []):
     link = result.get("link", "")
-    if link:
+    if link and (".pdf" in link.lower() or "pdf" in link.lower()):
         urls.append(link)
 
         logger.info("Found %d PDF URLs for '%s'", len(urls), query)
