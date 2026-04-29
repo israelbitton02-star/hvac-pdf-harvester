@@ -1,10 +1,9 @@
 import logging
 import os
-import asyncio
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from collector import collect_pdfs
-from models import CollectRequest, DocumentRecord
+from models import CollectRequest
 from supabase_client import get_documents
 
 logging.basicConfig(level=logging.INFO)
@@ -28,8 +27,8 @@ def health_check():
     return {"status": "ok"}
 
 @app.post("/collect")
-async def collect(request: CollectRequest):
-    asyncio.create_task(collect_pdfs(request))
+async def collect(request: CollectRequest, background_tasks: BackgroundTasks):
+    background_tasks.add_task(collect_pdfs, request)
     return {
         "status": "ok",
         "message": "Collecte lancée en arrière-plan",
